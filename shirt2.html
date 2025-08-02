@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KAIROVA | Product Details</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="simple-header">
+    <a href="index.html" class="brand-logo">
+      <img src="wordmark.png" alt="KAIROVA Logo" class="logo" />
+    </a>
+  </header>
+  <!-- Navbar here -->
+
+  <section class="product-container">
+    <!-- LEFT: Image -->
+    <div class="product-image">
+      <img src="shirt2.jpeg" alt="Cream Tank Top">
+    </div>
+
+    <!-- RIGHT: Details -->
+    <div class="product-info">
+      <h1>Bold Signature Shirt</h1>
+      <p class="product-price">GHS 150.00</p>
+
+      <div class="product-colors">
+        <p>Color:</p>
+        <div class="color-options">
+          <span class="color-box red"></span>
+          <span class="color-box black"></span>
+          <span class="color-box white"></span>
+        </div>
+      </div>
+
+      <div class="product-sizes">
+        <p>Size:</p>
+        <select>
+          <option>Select Size</option>
+          <option>Small</option>
+          <option>Medium</option>
+          <option>Large</option>
+          <option>X-Large</option>
+        </select>
+      </div>
+
+      <div class="product-actions">
+        <span class="favorite-icon-inside">🤍</span>
+        <button class="add-cart-btn"
+        data-id="shirt2"
+        data-name="Bold Signature Shirt"
+        data-price="150.00"
+        data-image="shirt2.jpeg">🛒 Add to Cart</button>
+        <a href="https://wa.me/233593834238?text=Hello%2C%20I%20want%20to%20buy%20the%20Bold%20Signature%20Shirt%20(GHS%20150.00).%20Can%20you%20help%20me%20place%20my%20order%3F" target="_blank">
+          <button class="buy-now-btn">Buy Now</button>
+        </a>
+        
+      </div>
+
+      <div class="product-description">
+        <h3>Description</h3>
+        <p>Made with premium Ghanaian cotton, this bold design represents confidence and culture. Unisex. Everyday fit.</p>
+
+        <h3>Shipping & Returns</h3>
+        <p>Standard shipping available across Ghana. No returns currently supported.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Products -->
+  <section class="related-products">
+    <h2>You May Also Like</h2>
+    <div class="related-grid">
+      <!-- Each of these should link to their own product.html later -->
+      <div class="product-card">
+        <img src="cap1.jpeg" alt="Cap">
+        <p>Streetwear Cap</p>
+        <p>GHS 80.00</p>
+      </div>
+
+      <div class="product-card">
+        <img src="shirt1.jpeg" alt="Shirt 2">
+        <p>Heritage Tee</p>
+        <p>GHS 130.00</p>
+      </div>
+
+      <div class="product-card">
+        <img src="shirt3.jpeg" alt="Shirt 3">
+        <p>KAIROVA Urban Tee</p>
+        <p>GHS 140.00</p>
+      </div>
+    </div>
+  </section>
+  <script>
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      document.getElementById('cart-count').innerText = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+    updateCartCount();
+  </script>
+  <script>
+    // Load cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const cartBtn = document.querySelector('.add-cart-btn');
+    const productId = cartBtn.dataset.id;
+
+    // Check if this product is already in cart
+    const isInCart = cart.find(item => item.id === productId);
+    if (isInCart) {
+      cartBtn.classList.add('added');
+      cartBtn.textContent = '✔️ Added to Cart';
+    }
+
+    cartBtn.addEventListener('click', function () {
+      const product = {
+        id: this.dataset.id,
+        name: this.dataset.name,
+        price: parseFloat(this.dataset.price),
+        image: this.dataset.image,
+        quantity: 1
+      };
+
+      const index = cart.findIndex(item => item.id === product.id);
+
+      if (index !== -1) {
+        // Already in cart, remove it
+        cart.splice(index, 1);
+        this.textContent = '🛒 Add to Cart';
+        this.classList.remove('added');
+      } else {
+        // Not in cart, add it
+        cart.push(product);
+        this.textContent = '✔️ Added to Cart';
+        this.classList.add('added');
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+    });
+  </script>
+  
+</body>
+</html>
